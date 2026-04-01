@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from .serializers import StockPredictionSerializer
+from .serializers import StockPredictionSerializer, CompanySearchSerializer
 from rest_framework import status
 from rest_framework.response import Response
 import yfinance as yf
@@ -14,6 +14,41 @@ from .utils import save_plot
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import load_model
 from sklearn.metrics import mean_squared_error, r2_score
+from .services.company_lookup import CompanyLookupService
+
+
+class CompanySearchAPIView(APIView):
+    """Search for companies by name and get ticker symbols"""
+    def post(self, request):
+        serializer = CompanySearchSerializer(data=request.data)
+        if serializer.is_valid():
+            query = serializer.validated_data['query']
+
+            try:
+                company = CompanyLookupService.lookup(query)
+                
+                if company:
+                    return Response({
+                        'status': 'success',
+                        'results': [{
+                            'name': company['name'],
+                            'ticker': company['ticker'],
+                            'description': company['sector']
+                        }]
+                    })
+                else:
+                    return Response({
+                        'status': 'error',
+                        'message': 'Company not found. Try searching by company name or ticker.'
+                    }, status=status.HTTP_404_NOT_FOUND)
+
+            except Exception as e:
+                return Response({
+                    'status': 'error',
+                    'message': f'Search failed: {str(e)}'
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -23,12 +58,26 @@ class StockPredictionAPIView(APIView):
         if serializer.is_valid():
             ticker = serializer.validated_data['ticker']
 
-            # Fetch the data from yfinance
             now = datetime.now()
-            start=datetime(now.year-10, now.month, now.day)
-            end= now
-            df =yf.download(ticker,start,end)
-            if df.empty:
+            end = now
+            
+            periods_to_try = [10, 5, 3, 1]
+            df = None
+            
+            for years in periods_to_try:
+                start = datetime(now.year - years, now.month, now.day)
+                df = yf.download(ticker, start, end, progress=False)
+                
+                if not df.empty:
+                    break
+                
+                if '.NS' in ticker:
+                    base_ticker = ticker.replace('.NS', '')
+                    df = yf.download(base_ticker, start, end, progress=False)
+                    if not df.empty:
+                        break
+            
+            if df is None or df.empty:
                 return Response({"error":"No data found for the given ticker.",
                                 "status":status.HTTP_404_NOT_FOUND })
             

@@ -14,7 +14,7 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
 class ProjectedView(APIView):
-    permission_classed =[IsAuthenticated]
+    permission_classes =[IsAuthenticated]
 
     def get(self,request):
         response={
