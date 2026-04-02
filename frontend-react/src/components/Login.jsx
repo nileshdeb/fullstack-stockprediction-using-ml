@@ -1,70 +1,124 @@
-import React, {useState,useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner, faUser, faLock } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import {AuthContext} from '../AuthProvider'
+import { AuthContext } from '../AuthProvider'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
-  const  [username, setUsername] =useState('')
-  const [password,setPassword] =useState('')
-  const [loading,setLoading] = useState(false)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const [error, setError] = useState('')
-  const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext)
-  
-  const handleLogin = async (e) =>{
-    e.preventDefault();
-    setLoading(true);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext)
 
-    const userData = {username, password}
-    console.log('userData==>',userData);
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    setLoading(true)
 
+    const userData = { username, password }
+    console.log('userData==>', userData)
 
-    try{
-      const response =await axios.post('http://127.0.0.1:8000/api/v1/token/', userData)
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/v1/token/', userData)
       localStorage.setItem('accessToken', response.data.access)
       localStorage.setItem('refreshToken', response.data.refresh)
-      console.log('Login successful');
+      console.log('Login successful')
       setIsLoggedIn(true)
       navigate('/dashboard')
-    }catch(error){
+    } catch (error) {
       console.error('Invalid credentials')
       setError('Invalid credentials')
-    }finally{
+    } finally {
       setLoading(false)
     }
-
-
   }
-  
+
   return (
-     <>
-    <div className='container'>
-
-        <div className='row justify-content-center'>
-            <div className="col-md-6 bg-light-dark p-5 rounded">
-                <h3 className='text-light text-center mb-4'>Login to our Portal</h3>
-                <form onSubmit={handleLogin}>
-                  <div className='mb-3'>
-                    <input type='text' className ='form-control' placeholder='Username' value ={username} onChange={(e) => setUsername(e.target.value)}/>
-                  </div>
-                    
-                    <div className='mb-3'>
-                      <input type='password' className='form-control' placeholder='Set password' value ={password} onChange={(e) => setPassword(e.target.value)} />
-
-                    </div>
-                    {error && <div className='text-danger'>{error}</div>}
-                    {loading ? (
-                      <button type ='submit' className ='btn btn-info d-block mx-auto' disabled><FontAwesomeIcon icon ={faSpinner} spin/> Logging in...</button>
-                    ) : (
-                      <button type ='submit' className ='btn btn-info d-block mx-auto'>Login</button>
-                    )}
-                </form>
+    <main className="flex flex-1 items-center justify-center py-16 sm:py-20">
+      <div className="flex w-full justify-center px-4">
+        <div className="w-full max-w-lg rounded-xl border border-white/10 bg-white/5 p-7 sm:p-10">
+          <div className="mb-6 text-center">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-600/20">
+              <FontAwesomeIcon icon={faUser} className="text-lg text-cyan-400" />
             </div>
+            <h3 className="text-2xl font-bold text-white">Welcome Back</h3>
+            <p className="mt-1 text-sm text-slate-400">Sign in to your account</p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-slate-300">Username</label>
+              <div className="relative" style={{ position: 'relative' }}>
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className="absolute text-sm text-slate-500"
+                  style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }}
+                />
+                <input
+                  type="text"
+                  className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 pr-4 text-sm text-white placeholder-slate-500 outline-none transition-all duration-300 focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
+                  style={{ paddingLeft: '40px' }}
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-slate-300">Password</label>
+              <div className="relative" style={{ position: 'relative' }}>
+                <FontAwesomeIcon
+                  icon={faLock}
+                  className="absolute text-sm text-slate-500"
+                  style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }}
+                />
+                <input
+                  type="password"
+                  className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 pr-4 text-sm text-white placeholder-slate-500 outline-none transition-all duration-300 focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
+                  style={{ paddingLeft: '40px' }}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div className="rounded-lg border border-red-400/20 bg-red-400/10 px-3 py-2 text-sm text-red-400">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <FontAwesomeIcon icon={faSpinner} spin />
+                  Signing in...
+                </span>
+              ) : (
+                'Sign In'
+              )}
+            </button>
+          </form>
+
+          <p className="mt-5 text-center text-sm text-slate-400">
+            Don't have an account?{' '}
+            <Link to="/register" className="font-medium text-cyan-400 hover:text-cyan-300">
+              Create one
+            </Link>
+          </p>
         </div>
-    </div>
-    </>
+      </div>
+    </main>
   )
 }
+
 export default Login

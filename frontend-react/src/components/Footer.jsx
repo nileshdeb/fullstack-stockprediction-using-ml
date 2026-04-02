@@ -2,12 +2,13 @@ import React from 'react'
 
 const Footer = () => {
   return (
-<>
-    <footer className='footer py-3 my-3'>
-    <hr className ='border-bottom' />
-    <p className ='text-light text-center'>&copy; 2026 - Built with ❤️ by Nilesh Deb </p>
+    <footer className="mt-auto flex w-full items-center justify-center border-t border-white/10 py-4 text-center">
+      <div className="w-full px-4 text-center" style={{ width: '100%', textAlign: 'center' }}>
+        <p className="text-center text-sm text-slate-500">
+          &copy; 2026 Built with <span className="text-red-400">&#10084;</span> by Nilesh Deb
+        </p>
+      </div>
     </footer>
-</>
   )
 }
 
