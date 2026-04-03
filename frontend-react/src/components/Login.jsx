@@ -39,8 +39,8 @@ const Login = () => {
   return (
     <main className="flex flex-1 items-center justify-center py-16 sm:py-20">
       <div className="flex w-full justify-center px-4">
-        <div className="w-full max-w-lg rounded-xl border border-white/10 bg-white/5 p-7 sm:p-10">
-          <div className="mb-6 text-center">
+        <div className="w-full max-w-lg min-w-[480px] rounded-xl border border-white/10 bg-white/5 p-12">
+          <div className="text-center">
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-600/20">
               <FontAwesomeIcon icon={faUser} className="text-lg text-cyan-400" />
             </div>
@@ -48,9 +48,9 @@ const Login = () => {
             <p className="mt-1 text-sm text-slate-400">Sign in to your account</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-300">Username</label>
+          <form onSubmit={handleLogin}>
+            <div className="mb-5">
+              <label className="mt-7 mb-2 block text-sm font-medium text-slate-300">Username</label>
               <div className="relative" style={{ position: 'relative' }}>
                 <FontAwesomeIcon
                   icon={faUser}
@@ -59,8 +59,8 @@ const Login = () => {
                 />
                 <input
                   type="text"
-                  className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 pr-4 text-sm text-white placeholder-slate-500 outline-none transition-all duration-300 focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
-                  style={{ paddingLeft: '40px' }}
+                  className="h-11 w-full rounded-lg border border-white/10 bg-white/5 pl-11 pr-3 text-sm text-white placeholder-slate-500 outline-none transition-all duration-300 focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
+                  style={{ paddingLeft: '44px' }}
                   placeholder="Enter your username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -68,8 +68,8 @@ const Login = () => {
               </div>
             </div>
 
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-300">Password</label>
+            <div className="mb-6">
+              <label className="mb-2 block text-sm font-medium text-slate-300">Password</label>
               <div className="relative" style={{ position: 'relative' }}>
                 <FontAwesomeIcon
                   icon={faLock}
@@ -78,8 +78,8 @@ const Login = () => {
                 />
                 <input
                   type="password"
-                  className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 pr-4 text-sm text-white placeholder-slate-500 outline-none transition-all duration-300 focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
-                  style={{ paddingLeft: '40px' }}
+                  className="h-11 w-full rounded-lg border border-white/10 bg-white/5 pl-11 pr-3 text-sm text-white placeholder-slate-500 outline-none transition-all duration-300 focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
+                  style={{ paddingLeft: '44px' }}
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -88,7 +88,7 @@ const Login = () => {
             </div>
 
             {error && (
-              <div className="rounded-lg border border-red-400/20 bg-red-400/10 px-3 py-2 text-sm text-red-400">
+              <div className="mb-4 rounded-lg border border-red-400/20 bg-red-400/10 px-3 py-2 text-sm text-red-400">
                 {error}
               </div>
             )}
@@ -96,7 +96,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
+              className="mb-4 h-11 w-full rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -109,7 +109,7 @@ const Login = () => {
             </button>
           </form>
 
-          <p className="mt-5 text-center text-sm text-slate-400">
+          <p className="text-center text-sm text-slate-400">
             Don't have an account?{' '}
             <Link to="/register" className="font-medium text-cyan-400 hover:text-cyan-300">
               Create one

@@ -205,11 +205,13 @@ const Dashboard = () => {
               </section>
 
               {loading && (
-                <section className="pt-6 text-center">
-                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-400/10">
-                    <FontAwesomeIcon icon={faSpinner} spin className="text-xl text-cyan-400" />
+                <section className="w-full pt-6" style={resultsInnerStyle}>
+                  <div className="flex w-full flex-col items-center justify-center text-center">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-400/10">
+                      <FontAwesomeIcon icon={faSpinner} spin className="text-xl text-cyan-400" />
+                    </div>
+                    <p className="mt-3 text-sm font-medium text-slate-400">Analyzing stock data...</p>
                   </div>
-                  <p className="mt-3 text-sm font-medium text-slate-400">Analyzing stock data...</p>
                 </section>
               )}
 
@@ -267,7 +269,7 @@ const Dashboard = () => {
           )}
 
           {error && (
-            <div className="max-w-3xl mx-auto rounded-lg border border-red-400/20 bg-red-400/10 px-3 py-2 text-sm text-red-400">
+            <div className="max-w-3xl mx-auto rounded-lg border border-red-400/20 bg-red-400/10 px-3 py-2 text-sm text-red-400" style={{ maxWidth: '660px', margin: '8px auto 0 auto', width: '100%' }}>
               {error}
             </div>
           )}
