@@ -8,6 +8,7 @@ from .views import StockPredictionAPIView, CompanySearchAPIView
 
 
 urlpatterns = [
+   path('accounts/', include('accounts.urls')),
    path('register/', UserViews.RegisterView.as_view()),
 
    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

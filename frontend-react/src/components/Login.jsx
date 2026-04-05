@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner, faUser, faLock } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
+import { Eye, EyeOff } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../AuthProvider'
 import { Link } from 'react-router-dom'
@@ -9,6 +10,7 @@ import { Link } from 'react-router-dom'
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const [error, setError] = useState('')
@@ -77,13 +79,27 @@ const Login = () => {
                   style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }}
                 />
                 <input
-                  type="password"
-                  className="h-11 w-full rounded-lg border border-white/10 bg-white/5 pl-11 pr-3 text-sm text-white placeholder-slate-500 outline-none transition-all duration-300 focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
+                  type={showPassword ? 'text' : 'password'}
+                  className="h-11 w-full rounded-lg border border-white/10 bg-white/5 pl-11 pr-11 text-sm text-white placeholder-slate-500 outline-none transition-all duration-300 focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
                   style={{ paddingLeft: '44px' }}
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <button
+                  type="button"
+                  className="absolute text-slate-500 transition-colors duration-300 hover:text-slate-300"
+                  style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)' }}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+              <div className="mt-2 text-right">
+                <Link to="/reset-password" className="text-sm font-medium text-cyan-400 hover:text-cyan-300">
+                  Forgot password?
+                </Link>
               </div>
             </div>
 
