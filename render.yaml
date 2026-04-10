@@ -1,14 +1,10 @@
 services:
   - type: web
     name: stock-prediction-api
-    runtime: python
+    runtime: docker
     rootDir: backend-drf
-    buildCommand: sh build.sh
-    startCommand: gunicorn stock_prediction_main.wsgi:application
     plan: free
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.12.7"
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG
