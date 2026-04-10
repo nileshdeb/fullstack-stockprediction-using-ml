@@ -60,13 +60,16 @@ This project demonstrates end-to-end ML deployment, JWT-based authentication, pa
 ## Project Structure
 
 ```text
-fullstack-stockprediction-using-ml/
+WEBDEV_PROJECT/
 │
 ├── backend-drf/
-│   ├── accounts/              # Authentication and password reset APIs
-│   ├── api/                   # Stock prediction API
-│   ├── stock_prediction_main/ # Django project settings
-│   ├── media/                 # Generated plot images
+│   ├── accounts/                  # Authentication and password reset APIs
+│   ├── api/                       # Stock prediction API
+│   ├── stock_prediction_main/     # Django project settings
+│   ├── media/                     # Generated plot images
+│   ├── env/                       # Virtual environment
+│   ├── stock_prediction_model.keras # Pre-trained LSTM model
+│   ├── requirements.txt
 │   ├── manage.py
 │   └── db.sqlite3
 │
@@ -80,13 +83,30 @@ fullstack-stockprediction-using-ml/
 │   │   │   └── dashboard/
 │   │   │       └── Dashboard.jsx
 │   │   ├── axiosinstance.js
+│   │   ├── AuthProvider.jsx
+│   │   ├── PrivateRoute.jsx
+│   │   ├── PublicRoute.jsx
 │   │   ├── App.jsx
 │   │   └── main.jsx
 │   ├── .env
-│   └── package.json
+│   ├── package.json
+│   └── vite.config.js
 │
+├── Resources/
+├── runtime.txt
+├── render.yaml
 └── README.md
 ```
+
+---
+
+## ⚠️ Deployment Note
+
+This project includes a backend integrated with Machine Learning components (e.g., TensorFlow), which makes it resource-intensive.
+
+Due to these heavy dependencies, deployment on free-tier platforms like Render was not successful, as the available memory and system resources were insufficient.
+
+To run this project successfully, it is recommended to use a higher-resource environment (paid cloud tier or local machine with adequate RAM).
 
 ---
 
@@ -189,15 +209,8 @@ http://localhost:5173
   - Full-stack roles
   - ML Engineer and Data Scientist portfolios
 
----
 
-## Future Improvements
 
-- Multi-day future prediction
-- Interactive charts with Chart.js or Recharts
-- Dockerization
-- Cloud deployment with Vercel and Railway
-- Auto model retraining
 
 ---
 
